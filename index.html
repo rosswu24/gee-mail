@@ -1,18 +1,163 @@
 <html>
-	<head>
+	<head> <h1>GeeMail</h1>
 		<script src="js/mail-generator.js"></script>
 		<link href="css/style.css" rel="stylesheet" media="screen">
     <script>
       window.onload = function(){
         // ALL OF YOUR JAVASCRIPT CODE SHOULD GO HERE. 
         // We have to use window.onload so your JavaScript doesn't execute until the page has loaded and all HTML has been downloaded to your browser
+       // console.log(window.geemails);
+
+         var displayCount = document.getElementById("counter");
+          displayCount.innerHTML = "Inbox: " + geemails.length;
+
+         function counter(){
+         var countDisplay = document.getElementById("counter");
+            countDisplay.innerHTML = "Inbox: " + geemails.length++;
+          }
+         // var countDisplay = document.getElementById("counter");
+         //  countDisplay.innerHTML = setInterval(5000, counter++);
+
+       function msgBuilder(message){
+   
+
+
+          for(var i = 0; i<message.length; i++){
+            // console.log(message[i]);
+
+            // create emailGroup container for each email
+            var emailGroup = document.createElement("div");
+            emailGroup.className = "emailGroup";
+
+            //create Date for each email
+            var emailDate = document.createElement("p");
+            emailDate.className = "emailDate";
+            emailDate.innerHTML = "DATE: " + message[i].date;
+
+            emailGroup.appendChild(emailDate);
+
+            //create senders for each email
+
+            var emailSender = document.createElement("h3");
+            emailSender.className = "emailSender";
+            emailSender.innerHTML = "SENDER: " + message[i].sender;
+
+            
+            // create sender for each email
+            emailGroup.appendChild(emailSender);
+
+            // create subject for each email
+            var emailSubject = document.createElement("h3");
+            emailSubject.className = "emailSubject";
+            emailSubject.innerHTML = "SUBJECT: " + message[i].subject;
+
+            // appends emailSubject into emailGroup
+            emailGroup.appendChild(emailSubject);
+
+            //create body for each email
+            var emailBody = document.createElement("p");
+            emailBody.className = "emailBody";
+            emailBody.innerHTML = "BODY: " + message[i].body;
+
+            emailGroup.appendChild(emailBody);
+
+            // Finally append emailGroups to "main" div
+            document.getElementById("main").appendChild(emailGroup);
+            
+          }// end msg for loop
+
+
+          // targets emailgroup so when click, body message well appear
+          var appearBody = document.getElementsByClassName("emailGroup");
+          for(var x = 0; x<appearBody.length; x++){
+            appearBody[x].addEventListener("click", appear);
+          }
+
+       } // ends msg function
+
+        msgBuilder(window.geemails);
+       
+
+          function appear(){
+          var pemailBody = this.querySelectorAll(".emailBody")[0];
+            if(pemailBody.style.display === "none"){
+              pemailBody.style.display ="block";
+            }else{
+              pemailBody.style.display ="none";
+            } 
+          }
+
+          
+
+         //runs the random email string layout
+          function randomEmail(){
+            var msg = getNewMessage();
+
+            var randomGroup = document.createElement("div");
+            randomGroup.className = "randomGroup";
+          
+            var randomDate = document.createElement("p");
+            randomDate.className="randomDate";
+            randomDate.innerHTML = msg.date;
+            randomGroup.appendChild(randomDate);
+
+            var randomSender = document.createElement("h3");
+            randomSender.className="randomSender";
+            randomSender.innerHTML = msg.sender;
+            randomGroup.appendChild(randomSender);
+
+            var randomSubject = document.createElement("h3");
+            randomSubject.className="randomSubject";
+            randomSubject.innerHTML = msg.subject;
+            randomGroup.appendChild(randomSubject);
+
+            var randomBody = document.createElement("p");
+            randomBody.className = "randomBody";
+            randomBody.innerHTML = msg.body;
+            randomGroup.appendChild(randomBody);
+
+            main.appendChild(randomGroup);
+
+            var randomMsg = document.getElementsByClassName("randomGroup");
+            for(var y = 0; y<randomMsg.length; y++){
+              randomMsg[y].addEventListener("click", randomAppearDis);
+            }
+          
+          function randomAppearDis(){
+             var random = this.querySelectorAll(".randomBody")[0];
+            if(random.style.display === "none"){
+              random.style.display ="block";
+            }else{
+              random.style.display ="none";
+            }
+         }
+
+            //appends randomGroups to div tag randomMsg
+
+          } // end random email function
+
+          //generate random email and prints out every 5 second
+
+
+            setInterval(counter, 5000);
+           setInterval(randomEmail, 5000);
+
+       
+
+       
+
+
         
       };
     </script>
 	</head>
 	<body>
-		<div class="container" id="main">
-			Build Me!
-		</div>
+    <div id="main">
+
+    <div id="counter"></div>
+
+    </div>
+  
+
 	</body>
 </html>
